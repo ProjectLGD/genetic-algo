@@ -17,15 +17,15 @@ public:
     DNA(uint64_t size) {
 
     }
+
     DNA() {
 
     }
+
     DNA(const DNA<T> *genes) {
-        DNA<T> result;
         for (auto m : genes) {
-            result.gene_add(m);
+            this.gene_add(m);
         }
-        return result;
     }
 
     ~DNA() {
@@ -37,6 +37,8 @@ public:
         uint64_t size_other = other->gene_size();
         DNA<T> new_dna;
 
+        // Decide on the smallest size we're going to use for both vectors.
+        // This ensures that we don't go over the limits of a vector.
         uint64_t size_to_use;
         if (size_self > size_other) {
             size_to_use = size_other;
@@ -44,18 +46,24 @@ public:
             size_to_use = size_self;
         }
 
+        // Find a midpoint that fits within the smallest size of the vectors.
         uint64_t midpoint = (rand() % size_to_use);
-        bool first = rand() % 2;
+        // Sometimes we pick from this first, sometimes we pick from other first
+        bool order = rand() % 2;
+
+        // From 0 to midpoint, pick a gene.
         for (size_t i = 0; i < midpoint; i++) {
-            if (first) {
+            if (order) {
                 new_dna.gene_add(this->genes.at(i));
             } else {
                 new_dna.gene_add(other->genes.at(i));
             }
 
         }
+        // From midpoint to the smallest vector size, pick the others
+        // TODO: This is imperfect as it leaves out a possible chunk of values.
         for (size_t i = midpoint; i < size_to_use; i++) {
-            if (first) {
+            if (order) {
                 new_dna.gene_add(other->genes.at(i));
             } else {
                 new_dna.gene_add(this->genes.at(i));
