@@ -24,21 +24,27 @@ int main(int argc, char** argv) {
         random_values.push_back(rand() % 13113);
     }
 
-
     dna.print();
-    dna2.print();
+    cout << "Current fitness is " << dna.fitness_get() << endl;
+    cout << "Calculating new fitness" << endl;
+    dna.fitness_calculate(500);
+    cout << "New fitness is " << dna.fitness_get() << endl;
 
-    DNA<int> dna3 = dna.crossover(&dna2);
-    DNA<int> dna4(dna3); //copy
 
-    dna3.print();
-    dna4.print();
 
-    cout << "Dna comparison 3-4: " << ((dna3 == dna4) ? "True" : "False") << endl;
+    // dna2.print();
 
-    dna3.mutate(0.1, random_values); // change values according to random_values
-    dna3.print();
+    // DNA<int> dna3 = dna.crossover(&dna2);
+    // DNA<int> dna4(dna3); //copy
 
-    cout << "Dna comparison 3-4: " << ((dna3 == dna4) ? "True" : "False") << endl;
+    // dna3.print();
+    // dna4.print();
+
+    // cout << "Dna comparison 3-4: " << ((dna3 == dna4) ? "True" : "False") << endl;
+
+    // dna3.mutate(0.1, random_values); // change values according to random_values
+    // dna3.print();
+
+    // cout << "Dna comparison 3-4: " << ((dna3 == dna4) ? "True" : "False") << endl;
     return EXIT_OK;
 }

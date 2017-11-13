@@ -5,18 +5,21 @@
 #include <stdint.h>
 #include <time.h>
 #include <iostream>
+#include <limits>
 
 using namespace std;
 
 template <class T>
 class DNA {
 private:
+    // The genes of this DNA. Can contain any object.
     vector<T> genes;
-    float fitness;
-public:
-    DNA(uint64_t size) {
 
-    }
+    // The fitness of this particular DNA.
+    // Will only be accurate after calling the fitness function.
+    float fitness = 0.0f;
+
+public:
 
     DNA() {
 
@@ -32,6 +35,7 @@ public:
         cout << "Deconstructor DNA called" << endl;
     }
 
+    // Crosses two DNA's into a new one.
     DNA<T> crossover(DNA<T> *other) {
         uint64_t size_self = this->gene_size();
         uint64_t size_other = other->gene_size();
@@ -72,6 +76,7 @@ public:
         return new_dna;
     }
 
+    // Mutates the genes using mutation_rate with values provided by random_values.
     void mutate(float mutation_rate, vector<T> random_values) {
         for (size_t i = 0; i < genes.size(); i++) {
             float random = (rand() / (float)RAND_MAX);
@@ -79,6 +84,58 @@ public:
                 genes.at(i) = random_values.at(rand() % random_values.size());
             }
         }
+    }
+
+    // Calculates the fitness for this particular DNA.
+    void fitness_calculate(T target) {
+        float score = 0.0f;
+        float distance_max = numeric_limits<float>::min();
+        float distance_min = numeric_limits<float>::max();
+
+        // TODO: Check if distance_max is needed.
+
+        // Calculate the distance to T for every gene.
+        for (size_t i = 0; i < genes.size(); i++) {
+            T current = genes.at(i);
+            // We can not use abs() because T is not guaranteed to be float or int etc.
+            float distance_current;
+            // Work around abs() not supporting much more than default datatypes.
+            if (current > target) {
+                distance_current = current - target;
+            } else {
+                distance_current = target - current;
+            }
+            if (distance_current > distance_max) {
+                distance_max = distance_current;
+            }
+            if (distance_current < distance_min) {
+                distance_min = distance_current;
+            }
+        }
+
+        cout << "Max and min are " << distance_max << " " << distance_min << endl;
+
+        // The worst case scenario is distance_max, the best is distance_min being 0.
+        if (distance_min == 0) {
+            fitness = 1.0f;
+        } else {
+            // The smaller distance_min, the higher the fitness should be.
+            // TODO: Fix me. See ideally vs right now.
+            // Ideally:
+            // 1 / 0 (1.0f)
+            // 1 / 1 (0.9f)
+            // 1 / 2 (0.8f)
+
+            // Right now:
+            // 1 / 0 (1.0f)
+            // 1 / 1 (0.5f)
+            // 1 / 2 (0.25f)
+            fitness = 1.0f / (distance_min * 2);
+        }
+    }
+
+    float fitness_get() {
+        return fitness;
     }
 
     void gene_add(T gene) {
