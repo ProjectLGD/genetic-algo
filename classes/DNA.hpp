@@ -32,7 +32,7 @@ public:
     }
 
     ~DNA() {
-        cout << "Deconstructor DNA called" << endl;
+        // cout << "Deconstructor DNA called" << endl;
     }
 
     // Crosses two DNA's into a new one.
@@ -113,13 +113,16 @@ public:
             }
         }
 
-        cout << "Max and min are " << distance_max << " " << distance_min << endl;
+        // cout << "Max and min are " << distance_max << " " << distance_min << endl;
 
         // The worst case scenario is distance_max, the best is distance_min being 0.
         if (distance_min == 0) {
             fitness = 1.0f;
         } else {
             // The smaller distance_min, the higher the fitness should be.
+            // TODO: Think about what kind of value fitness should become.
+            // For example, should we discard values larger than say, 20? Or should it gradually lower?
+            // Think about this.
             // TODO: Fix me. See ideally vs right now.
             // Ideally:
             // 1 / 0 (1.0f)
@@ -142,6 +145,10 @@ public:
         genes.push_back(gene);
     }
 
+    vector<T> gene_get() {
+        return genes;
+    }
+
     uint64_t gene_size() {
         return genes.size();
     }
@@ -157,8 +164,8 @@ public:
                 cout << endl;
             }
         }
-        cout << endl;
         cout << "End of DNA" << endl;
+        cout << endl;
     }
 
     bool operator==(const DNA<T> &other) const {
