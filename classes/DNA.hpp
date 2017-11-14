@@ -27,7 +27,7 @@ public:
 
     DNA(const DNA<T> *genes) {
         for (auto m : genes) {
-            this.gene_add(m);
+            gene_add(m);
         }
     }
 
