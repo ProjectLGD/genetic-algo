@@ -13,31 +13,40 @@ private:
     T target; // our target, T. The population wants to be as close as possible to target.
     float mutation_rate; // how often mutations occur.
     uint64_t population_size; // The size of the
-    vector<DNA<T>> popu;
-    vector<DNA<T>> mating_pool;
-    bool finished = false;
-    int perfect_score = 1;
-    uint64_t generations = 0;
-    dna_gen_func gen_func = nullptr;
+    vector<DNA<T>> popu; // current population filled with DNA
+    vector<DNA<T>> mating_pool; // the pool used when making new generation
+    bool finished = false; // not in use yet
+    int perfect_score = 1; // not in use yet.
+    uint64_t generation = 0; // current generation
+    dna_gen_func gen_func = nullptr; // thefunction to use to generate random data, as inside this class, T is still unknown.
 
 public:
     Population(T target, float mutation_rate, uint64_t population_size, dna_gen_func func) {
-        // TODO: Check if linux likes the way we handle this.
+
         this->target = target;
         this->mutation_rate = mutation_rate;
         this->population_size = population_size;
-        gen_func = func;
+        this->gen_func = func;
 
         // fill population with DNA.
         // TODO: remove hardcoded value;
         // Generate random DNA, so we're generating 100 DNA<T>'s of size 100;
-        vector<DNA<T>> random_dna = dna_generate(population_size, 100);
+        vector<DNA<T>> random_dna = dna_generate(population_size, 10);
         for (size_t i = 0; i < random_dna.size(); i++) {
             DNA<T> dna = random_dna.at(i);
             popu.push_back(dna); // this copies the dna to popu
         }
 
         fitness_calculate();
+    }
+
+    Population(const Population<T> *p) {
+        this->target = p->target;
+        this->mutation_rate = p->mutation_rate;
+        this->population_size = p->population_size;
+        this->gen_func = p->gen_func;
+
+        this->popu = p->popu;
     }
 
     void fitness_calculate() {
@@ -92,8 +101,14 @@ public:
             // Get parents
             DNA<T> partner1 = mating_pool.at(rand() % (mating_pool.size() - 1));
             DNA<T> partner2 = mating_pool.at(rand() % (mating_pool.size() - 1));
+
             // Make new child
             DNA<T> child = partner1.crossover(&partner2);
+
+            // cout << "Turning partner 1 and partner 2 into child" << endl;
+            // partner1.print();
+            // partner2.print();
+            // child.print();
 
             vector<T> random_values = dna_generate(1, child.gene_size()).at(0).gene_get();
             child.mutate(mutation_rate, random_values);
@@ -101,9 +116,10 @@ public:
             // add child to population.
             popu.at(i) = child;
         }
+        fitness_calculate(); // don't forget to calculate fitness so that all our new children are fit =D
         // If they're the same, that's not good.
         // popu.at(0).print();
-        generations++;
+        generation++;
     }
 
     DNA<T> compute_most_fit() {
@@ -111,8 +127,8 @@ public:
         float fitness_max = 0.0f;
         size_t index = 0;
         for (size_t i = 0; i < popu.size(); i++) {
-            DNA<T> *dna = &popu.at(i);
-            float fitness_current = dna->fitness_get();
+            DNA<T> dna = popu.at(i);
+            float fitness_current = dna.fitness_get();
             // cout << "Current fitness " << fitness_current << endl;
             if (fitness_current > fitness_max) {
                 fitness_max = fitness_current;
@@ -120,7 +136,7 @@ public:
             }
         }
         cout << "The most fit DNA is index " << index << " with a fitness of " << fitness_max << endl;
-        popu.at(index).print();
+        return popu.at(index);
     }
 
     vector<DNA<T>> dna_generate(uint64_t vector_amount, uint64_t dna_amount) {
@@ -132,8 +148,12 @@ public:
         cout << "Target:\t\t\t" << target << endl;
         cout << "Mutation rate:\t\t" << mutation_rate << endl;
         cout << "Population size:\t" << population_size << endl;
-        cout << "Generation:\t\t" << generations << endl;
+        cout << "Generation:\t\t" << generation << endl;
         cout << "End of population" << endl;
         cout << endl;
+    }
+
+    bool operator==(const Population<T> &other) const {
+        return (this->generation == other.generation) && (this->popu == other.popu);
     }
 };

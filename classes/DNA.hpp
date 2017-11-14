@@ -26,13 +26,15 @@ public:
     }
 
     DNA(const DNA<T> *genes) {
+        cout << "Copy constructor called" << endl;
         for (auto m : genes) {
             gene_add(m);
         }
+        fitness = genes->fitness;
     }
 
     ~DNA() {
-        cout << "Deconstructor DNA called" << endl;
+        // cout << "Deconstructor DNA called" << endl;
     }
 
     // Crosses two DNA's into a new one.
@@ -164,6 +166,7 @@ public:
                 cout << endl;
             }
         }
+        cout << "It's fitness is " << fitness << endl;
         cout << "End of DNA" << endl;
         cout << endl;
     }

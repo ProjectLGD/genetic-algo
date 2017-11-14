@@ -25,15 +25,22 @@ vector<DNA<int>> generate_data(uint64_t vector_size, uint64_t dna_size) {
 }
 
 int main(int argc, char** argv) {
+    cout << endl;
     srand(time(nullptr));
     uint64_t size = 100;
 
+    cout << boolalpha; // remember this one
+
     Population<int> pop(500, 0.01f, size, generate_data);
-    // pop.fitness_calculate();
     pop.print();
+    Population<int> pop2(pop);
+    cout << "Testing equals func of Population" << endl;
+    cout << (pop == pop2) << endl;
     pop.natural_selection();
     pop.generate();
     pop.print();
-    pop.compute_most_fit();
+    pop.compute_most_fit().print();
+    cout << "Testing equals func of Population" << endl;
+    cout << (pop == pop2) << endl;
     return EXIT_OK;
 }
