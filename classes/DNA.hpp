@@ -32,7 +32,7 @@ public:
     }
 
     ~DNA() {
-        // cout << "Deconstructor DNA called" << endl;
+        cout << "Deconstructor DNA called" << endl;
     }
 
     // Crosses two DNA's into a new one.

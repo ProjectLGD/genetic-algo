@@ -33,5 +33,7 @@ int main(int argc, char** argv) {
     pop.print();
     pop.natural_selection();
     pop.generate();
+    pop.print();
+    pop.compute_most_fit();
     return EXIT_OK;
 }

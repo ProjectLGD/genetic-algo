@@ -90,8 +90,8 @@ public:
         // popu.at(0).print();
         for (size_t i = 0; i < popu.size(); i++) {
             // Get parents
-            DNA<T> partner1 = mating_pool.at(rand() % mating_pool.size() - 1);
-            DNA<T> partner2 = mating_pool.at(rand() % mating_pool.size() - 1);
+            DNA<T> partner1 = mating_pool.at(rand() % (mating_pool.size() - 1));
+            DNA<T> partner2 = mating_pool.at(rand() % (mating_pool.size() - 1));
             // Make new child
             DNA<T> child = partner1.crossover(&partner2);
 
@@ -106,6 +106,23 @@ public:
         generations++;
     }
 
+    DNA<T> compute_most_fit() {
+        fitness_calculate();
+        float fitness_max = 0.0f;
+        size_t index = 0;
+        for (size_t i = 0; i < popu.size(); i++) {
+            DNA<T> *dna = &popu.at(i);
+            float fitness_current = dna->fitness_get();
+            // cout << "Current fitness " << fitness_current << endl;
+            if (fitness_current > fitness_max) {
+                fitness_max = fitness_current;
+                index = i;
+            }
+        }
+        cout << "The most fit DNA is index " << index << " with a fitness of " << fitness_max << endl;
+        popu.at(index).print();
+    }
+
     vector<DNA<T>> dna_generate(uint64_t vector_amount, uint64_t dna_amount) {
         return gen_func(vector_amount, dna_amount);
     }
@@ -115,6 +132,7 @@ public:
         cout << "Target:\t\t\t" << target << endl;
         cout << "Mutation rate:\t\t" << mutation_rate << endl;
         cout << "Population size:\t" << population_size << endl;
+        cout << "Generation:\t\t" << generations << endl;
         cout << "End of population" << endl;
         cout << endl;
     }
