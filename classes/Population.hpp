@@ -31,7 +31,7 @@ public:
         // fill population with DNA.
         // TODO: remove hardcoded value;
         // Generate random DNA, so we're generating 100 DNA<T>'s of size 100;
-        vector<DNA<T>> random_dna = dna_generate(population_size, 10);
+        vector<DNA<T>> random_dna = dna_generate(population_size, 1);
         for (size_t i = 0; i < random_dna.size(); i++) {
             DNA<T> dna = random_dna.at(i);
             popu.push_back(dna); // this copies the dna to popu
@@ -81,12 +81,17 @@ public:
 
             // TODO: We're assuming that fitness_max is not 0.
 
-            // remap the current fitness on a scale of 0 to maxFitness in between 0 and 1.
-            float fitness_new = (fitness_current / fitness_max);
-            // cout << "New fitness " << fitness_new << endl;
-            size_t size_to_copy = (size_t) (fitness_new * popu.size());
-            for (size_t i = 0; i < size_to_copy; i++) {
-                mating_pool.push_back(popu.at(i));
+            // So, what we're going to do next is, find the most fit DNA's fitness.
+            // If the DNA is more fit, it should be added to our mating pool more often.
+            // Else, it should be added less.
+
+            // So for example, a piece of DNA with a fitness of 1 should be added 10 times.
+            // A piece of DNA with a fitness of 0.1 should be added only one time.
+            unsigned int count = 0;
+            count = (unsigned int)(10 * (fitness_current / fitness_max));
+            // cout << "Adding fitness of " << fitness_current << "\t" << count << " times to mating_pool" << endl;
+            for (size_t j = 0; j < count; j++) {
+                mating_pool.push_back(*dna);
             }
         }
         // cout << "Mating pool size: " << mating_pool.size() << endl;
@@ -97,6 +102,12 @@ public:
 
         // This verifies we're actually replacing the value in popu.
         // popu.at(0).print();
+
+        // cout << "Mating pool consists of " << mating_pool.size() << " potential mates" << endl;
+        // for (size_t i = 0; i < mating_pool.size(); i++) {
+        //     mating_pool.at(i).print();
+        // }
+
         for (size_t i = 0; i < popu.size(); i++) {
             // Get parents
             DNA<T> partner1 = mating_pool.at(rand() % (mating_pool.size() - 1));

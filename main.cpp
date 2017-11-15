@@ -29,18 +29,35 @@ int main(int argc, char** argv) {
     srand(time(nullptr));
     uint64_t size = 100;
 
+    unsigned int to_run = 1;
+
     cout << boolalpha; // remember this one
 
-    Population<int> pop(500, 0.01f, size, generate_data);
-    pop.print();
-    Population<int> pop2(pop);
-    cout << "Testing equals func of Population" << endl;
-    cout << (pop == pop2) << endl;
-    pop.natural_selection();
-    pop.generate();
-    pop.print();
+    cout << "How often should we run?" << endl;
+    cin >> to_run;
+
+    Population<int> pop(500, 0.001f, size, generate_data);
+    cout << "Iterating "<< to_run <<" times to evolve population" << endl;
+    char temp;
+    for (size_t count = 1; count <= to_run; count++) {
+        cout << "\r";
+        cout << "Population " << count << flush;
+        // cout << "Population " << count << endl;
+        pop.natural_selection();
+        pop.generate();
+        // print all DNA
+        // for (size_t i = 0; i < pop.popu.size(); i++) {
+        //     DNA<int> *dna = &pop.popu.at(i);
+        //     dna->print();
+        // }
+        // pop.compute_most_fit().print();
+        // cin >> temp;
+    }
+    cout << endl;
+
     pop.compute_most_fit().print();
-    cout << "Testing equals func of Population" << endl;
-    cout << (pop == pop2) << endl;
+
+    pop.print();
+
     return EXIT_OK;
 }
