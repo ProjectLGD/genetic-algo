@@ -4,8 +4,6 @@
 
 using namespace std;
 
-// TODO: Check if I'm using size() -1 for the vectors in the rest in the file.
-
 template <class T>
 class Population {
     typedef vector<DNA<T>>(*dna_gen_func)(uint64_t vector_size, uint64_t dna_size);
@@ -78,8 +76,6 @@ public:
             DNA<T> *dna = &popu.at(i);
             float fitness_current = dna->fitness_get();
             // cout << "Current fitness " << fitness_current << endl;
-
-            // TODO: We're assuming that fitness_max is not 0.
 
             // So, what we're going to do next is, find the most fit DNA's fitness.
             // If the DNA is more fit, it should be added to our mating pool more often.
