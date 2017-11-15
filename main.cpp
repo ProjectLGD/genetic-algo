@@ -6,8 +6,8 @@
 #include <time.h>
 #include <iostream>
 
-#include "classes/DNA.hpp"
-#include "classes/Population.hpp"
+#include "include/DNA.hpp"
+#include "include/Population.hpp"
 
 using namespace std;
 
@@ -29,12 +29,12 @@ int main(int argc, char** argv) {
     srand(time(nullptr));
     uint64_t size = 100;
 
-    unsigned int to_run = 1;
+    unsigned int to_run = 10000;
 
     cout << boolalpha; // remember this one
 
     cout << "How often should we run?" << endl;
-    cin >> to_run;
+    // cin >> to_run;
 
     Population<int> pop(500, 0.001f, size, generate_data);
     cout << "Iterating "<< to_run <<" times to evolve population" << endl;
