@@ -3,3 +3,6 @@ todo
 **/*.a
 **/*.o
 genetic-algo
+cmake-build-debug/
+.idea/
+CMakeLists.txt
