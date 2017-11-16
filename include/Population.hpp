@@ -29,7 +29,7 @@ public:
         // fill population with DNA.
         // TODO: remove hardcoded value;
         // Generate random DNA, so we're generating 100 DNA<T>'s of size 100;
-        vector<DNA<T>> random_dna = dna_generate(population_size, 1);
+        vector<DNA<T>> random_dna = dna_generate(population_size, 100);
         for (size_t i = 0; i < random_dna.size(); i++) {
             DNA<T> dna = random_dna.at(i);
             popu.push_back(dna); // this copies the dna to popu

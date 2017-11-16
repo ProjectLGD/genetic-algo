@@ -95,8 +95,6 @@ public:
         float distance_max = numeric_limits<float>::min();
         float distance_min = numeric_limits<float>::max();
 
-        // TODO: Check if distance_max is needed.
-
         // Calculate the distance to T for every gene.
         for (size_t i = 0; i < genes.size(); i++) {
             T current = genes.at(i);
@@ -116,28 +114,29 @@ public:
             }
         }
 
+        float distance_between_min_max = distance_max - distance_min;
+
         // cout << "Max and min are " << distance_max << " " << distance_min << endl;
 
         // The worst case scenario is distance_max, the best is distance_min being 0.
-        if (distance_min == 0) {
-            fitness = 1.0f;
-        } else {
-            // The smaller distance_min, the higher the fitness should be.
-            // TODO: Think about what kind of value fitness should become.
-            // For example, should we discard values larger than say, 20? Or should it gradually lower?
-            // Think about this.
-            // TODO: Fix me. See ideally vs right now.
-            // Ideally:
-            // 1 / 0 (1.0f)
-            // 1 / 1 (0.9f)
-            // 1 / 2 (0.8f)
+        // The closer distance_max is to distance_min, the more fit this DNA is.
 
-            // Right now:
-            // 1 / 0 (1.0f)
-            // 1 / 1 (0.5f)
-            // 1 / 2 (0.25f)
-            fitness = 1.0f / (distance_min * 2);
-        }
+        // The smaller distance_min, the higher the fitness should be.
+        // TODO: Think about what kind of value fitness should become.
+        // For example, should we discard values larger than say, 20? Or should it gradually lower?
+        // Think about this.
+
+        // Ideally:
+        // 1 / 0 (1.0f)
+        // 1 / 1 (0.9f)
+        // 1 / 2 (0.8f)
+
+        // Right now:
+        // 1 / 0 (1.0f)
+        // 1 / 1 (0.5f)
+        // 1 / 2 (0.25f)
+
+        fitness = 0.7f * (1/(distance_min + 1)) + 0.3f * (1/(distance_between_min_max + 1));
     }
 
     float fitness_get() {
@@ -167,6 +166,7 @@ public:
                 cout << endl;
             }
         }
+        cout << endl;
         cout << "It's fitness is " << fitness << endl;
         cout << "End of DNA" << endl;
         cout << endl;
