@@ -121,21 +121,9 @@ public:
         // The worst case scenario is distance_max, the best is distance_min being 0.
         // The closer distance_max is to distance_min, the more fit this DNA is.
 
-        // The smaller distance_min, the higher the fitness should be.
-        // TODO: Think about what kind of value fitness should become.
-        // For example, should we discard values larger than say, 20? Or should it gradually lower?
-        // Think about this.
-
-        // Ideally:
-        // 1 / 0 (1.0f)
-        // 1 / 1 (0.9f)
-        // 1 / 2 (0.8f)
-
-        // Right now:
-        // 1 / 0 (1.0f)
-        // 1 / 1 (0.5f)
-        // 1 / 2 (0.25f)
-
+        // Fitness is more dependant on distance_min than distance_between_min_max right now.
+        // Distance_min is 70% of the fitness and distance_between_min_maxis only 30%, so the closer to the target,
+        // the fitter it is. And the closer all values are to the target, the fitter it is. (Unless distance_min is large)
         fitness = 0.7f * (1/(distance_min + 1)) + 0.3f * (1/(distance_between_min_max + 1));
     }
 
