@@ -93,7 +93,7 @@ public:
 			}
 
 		}
-		
+
         return new_dna;
     }
 
@@ -110,7 +110,6 @@ public:
     // Calculates the fitness for this particular DNA.
     void fitness_calculate(T target) {
         // NOTE: Make sure that fitness_calculate always returns a float > 0.
-        float score = 0.0f;
         float distance_max = numeric_limits<float>::min();
         float distance_min = numeric_limits<float>::max();
 
