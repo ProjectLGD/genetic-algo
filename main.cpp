@@ -26,7 +26,7 @@ vector<DNA<int>> generate_data(uint64_t vector_size, uint64_t dna_size) {
 
 int main(int argc, char** argv) {
     cout << endl;
-    srand(time(nullptr));
+    srand((unsigned)time(nullptr));
     uint64_t size = 100;
 
     unsigned int to_run = 10000;
@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
 
     Population<int> pop(500, 0.001f, size, generate_data);
     cout << "Iterating "<< to_run <<" times to evolve population" << endl;
-    char temp;
+    //char temp;
     for (size_t count = 1; count <= to_run; count++) {
         cout << "\r";
         cout << "Population " << count << flush;
