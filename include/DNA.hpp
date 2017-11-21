@@ -83,13 +83,17 @@ public:
         }
 
 		//Determine (randomly) how much of the leftover values should be added
-		uint64_t size_differential = (rand() % (size_big - size_to_use));
-
-		for (size_t i = size_to_use; i < (size_to_use + size_differential); i++)
+		if (size_big != size_to_use)
 		{
-			new_dna.gene_add(set_big->genes.at(i));
-		}
+			uint64_t size_differential = (rand() % (size_big - size_to_use));
 
+			for (size_t i = size_to_use; i < (size_to_use + size_differential); i++)
+			{
+				new_dna.gene_add(set_big->genes.at(i));
+			}
+
+		}
+		
         return new_dna;
     }
 
