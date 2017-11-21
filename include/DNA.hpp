@@ -42,7 +42,7 @@ public:
         uint64_t size_self = this->gene_size();
         uint64_t size_other = other->gene_size();
 		uint64_t size_big;	//Size of the biggest vector
-		
+
 		DNA<T> *set_big;	//Keep track of which vector is the biggest
 		DNA<T> new_dna;
 
@@ -74,7 +74,6 @@ public:
 
         }
         // From midpoint to the smallest vector size, pick the others
-        // TODO: This is imperfect as it leaves out a possible chunk of values.
         for (size_t i = midpoint; i < size_to_use; i++) {
             if (order) {
                 new_dna.gene_add(other->genes.at(i));
@@ -84,9 +83,9 @@ public:
         }
 
 		//Determine (randomly) how much of the leftover values should be added
-		uint64_t size_differential = (rand() % size_big - size_to_use);
+		uint64_t size_differential = (rand() % (size_big - size_to_use));
 
-		for (size_t i = size_to_use; i < size_to_use + size_differential; i++)
+		for (size_t i = size_to_use; i < (size_to_use + size_differential); i++)
 		{
 			new_dna.gene_add(set_big->genes.at(i));
 		}
