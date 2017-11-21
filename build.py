@@ -31,6 +31,8 @@ with new_context() as ctx:
     compile.extensions += extensions
     compile.inputs = glob('**/*.cpp')
     compile.executor.hooks.append(debug_hook)
+    compile.executor.enable_warning(value='all')
+
 
     link = Phase()
     link.executor = GccLink()
