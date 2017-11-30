@@ -1,14 +1,14 @@
 
 CC=g++
-CFLAGS:=-O2 -g
-CPPFLAGS:=$(CFLAGS) -std=c++11
+CFLAGS=-pedantic -Wextra -Wall
+CPPFLAGS=$(CFLAGS) -std=c++11
 
 AR=ar
 
 SRC_DIR=./
 OBJ_DIR=./
 
-INCLUDES=-I ./classes
+INCLUDES=-I ./include
 
 LIBRARY=libgenetic-algo.a
 
@@ -18,12 +18,16 @@ OBJ=$(patsubst $(SRC_DIR)%.cpp,$(OBJ_DIR)%.o,$(SRC))
 
 EXECUTABLE=genetic-algo
 
+release: all
+
+all: CFLAGS+=-O2
+all: $(EXECUTABLE)
+
+debug: CFLAGS+=-O0 -g
+debug: $(EXECUTABLE)
+
 %.cpp%.o:
 	$(CC) -c -o $@ $< $(CPPFLAGS)
-%.hpp%.o:
-	$(CC) -c -o $@ $< $(CPPFLAGS)
-
-all: $(EXECUTABLE)
 
 # Make the executable named EXECUTABLE using CC
 $(EXECUTABLE): $(OBJ)
