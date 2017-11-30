@@ -12,8 +12,8 @@ INCLUDES=-I ./classes
 
 LIBRARY=libgenetic-algo.a
 
-SRC=$(wildcard $(SRC_DIR)*.cpp)
-SRC2=main2.cpp
+SRC=$(shell find . -name "*.cpp")
+
 OBJ=$(patsubst $(SRC_DIR)%.cpp,$(OBJ_DIR)%.o,$(SRC))
 
 EXECUTABLE=genetic-algo
@@ -23,7 +23,7 @@ EXECUTABLE=genetic-algo
 %.hpp%.o:
 	$(CC) -c -o $@ $< $(CPPFLAGS)
 
-all: $(LIBRARY) $(EXECUTABLE)
+all: $(EXECUTABLE)
 
 # Make the executable named EXECUTABLE using CC
 $(EXECUTABLE): $(OBJ)
@@ -36,5 +36,5 @@ $(LIBRARY): $(OBJ)
 
 clean:
 	rm -rf $(OBJ)
-	rm $(EXECUTABLE)
-	rm $(LIBRARY)
+	rm -f $(EXECUTABLE)
+	rm -f $(LIBRARY)
