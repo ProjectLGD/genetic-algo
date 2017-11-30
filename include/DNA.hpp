@@ -110,26 +110,37 @@ public:
     // Calculates the fitness for this particular DNA.
     void fitness_calculate(T target) {
         // NOTE: Make sure that fitness_calculate always returns a float > 0.
-        float distance_max = numeric_limits<float>::min();
-        float distance_min = numeric_limits<float>::max();
 
-        // Calculate the distance to T for every gene.
-        for (size_t i = 0; i < genes.size(); i++) {
-            T current = genes.at(i);
-            // We can not use abs() because T is not guaranteed to be float or int etc.
-            float distance_current;
-            // Work around abs() not supporting much more than default datatypes.
-            if (current > target) {
-                distance_current = current - target;
-            } else {
-                distance_current = target - current;
+        float distance_max;
+        float distance_min;
+
+        if (genes.size() > 1) {
+            // Calculate the distance to T for every gene.
+            distance_max = genes.at(0).get_distance(target);
+            distance_min = genes.at(0).get_distance(target);
+            for (size_t i = 1; i < genes.size(); i++) {
+                T current = genes.at(i);
+                // We can not use abs() because T is not guaranteed to be float or int etc.
+                T distance_current;
+                // Work around abs() not supporting much more than default datatypes.
+                if (current > target) {
+                    distance_current = current - target;
+                } else {
+                    distance_current = target - current;
+                }
+                if (distance_current.get_distance(target) > distance_max) {
+                    distance_max = distance_current.get_distance(target);
+                }
+                if (distance_current.get_distance(target) < distance_min) {
+                    distance_min = distance_current.get_distance(target);
+                }
             }
-            if (distance_current > distance_max) {
-                distance_max = distance_current;
-            }
-            if (distance_current < distance_min) {
-                distance_min = distance_current;
-            }
+        } else if (genes.size() == 1) {
+            distance_max = genes.at(0).get_distance(target);
+            distance_min = genes.at(0).get_distance(target);
+        } else {
+            cerr << "Genes.size() is 0, should not happen boi." << endl;
+            exit(1);
         }
 
         float distance_between_min_max = distance_max - distance_min;
@@ -142,7 +153,14 @@ public:
         // Fitness is more dependant on distance_min than distance_between_min_max right now.
         // Distance_min is 70% of the fitness and distance_between_min_maxis only 30%, so the closer to the target,
         // the fitter it is. And the closer all values are to the target, the fitter it is. (Unless distance_min is large)
+        // cout << genes.at(0) << endl;
+        // cout << "Dis min " << distance_min << endl;
+        // cout << "Dis amx " << distance_max << endl;
+        // TODO: check if fitness works well.
         fitness = 0.7f * (1/(distance_min + 1)) + 0.3f * (1/(distance_between_min_max + 1));
+        // cerr << "Kill me" << endl;
+        // cout << fitness << endl;
+        // exit(1);
     }
 
     float fitness_get() {

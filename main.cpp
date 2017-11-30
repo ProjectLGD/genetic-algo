@@ -8,15 +8,20 @@
 
 #include "include/DNA.hpp"
 #include "include/Population.hpp"
+#include "include/Vec3.h"
 
 using namespace std;
 
-vector<DNA<int>> generate_data(uint64_t vector_size, uint64_t dna_size) {
-    vector<DNA<int>> vec;
+vector<DNA<Vec3>> generate_data(uint64_t vector_size, uint64_t dna_size) {
+    vector<DNA<Vec3>> vec;
     for (size_t i = 0; i < vector_size; i++) {
-        DNA<int> dna;
+        DNA<Vec3> dna;
         for (size_t j = 0; j < dna_size; j++) {
-            dna.gene_add(rand()%(1024*10));
+            int x = rand()%(1024*10);
+            int y = 0;
+            // int y = rand()%(1024*10);
+            int z = 0;
+            dna.gene_add(Vec3(x, y, z));
         }
         vec.push_back(dna);
     }
@@ -27,18 +32,28 @@ vector<DNA<int>> generate_data(uint64_t vector_size, uint64_t dna_size) {
 int main(int argc, char** argv) {
     cout << endl;
     srand((unsigned)time(nullptr));
-    uint64_t size = 100;
 
+    uint64_t size = 100;
     unsigned int to_run = 10000;
 
     cout << boolalpha; // remember this one
 
+    // Vec3 v;
+    // cout << v << endl;
+    // Vec3 v2(1, 2, 3);
+    // cout << v2 << endl;
+    // Vec3 v3(3, 2, 1);
+    // cout << v3 << endl;
+    // cout << "Adding" << endl;
+    // cout << (v3 + v2) << endl;
+
     cout << "How often should we run?" << endl;
     // cin >> to_run;
 
-    Population<int> pop(500, 0.001f, size, generate_data);
+    Population<Vec3> pop(Vec3(500,0,0), 0.001f, size, generate_data);
     cout << "Iterating "<< to_run <<" times to evolve population" << endl;
     //char temp;
+
     for (size_t count = 1; count <= to_run; count++) {
         cout << "\r";
         cout << "Population " << count << flush;
