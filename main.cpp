@@ -30,6 +30,8 @@ vector<DNA<Vec3>> generate_data(uint64_t vector_size, uint64_t dna_size) {
 }
 
 int main(int argc, char** argv) {
+    (void) argc; // unused
+    (void) argv; // unused
     cout << endl;
     srand((unsigned)time(nullptr));
 
