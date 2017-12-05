@@ -12,16 +12,18 @@ INCLUDES=-I ./include
 
 LIBRARY=libgenetic-algo.a
 
-SRC=$(shell find . -name "*.cpp")
+SRC=$(shell find ./src -name "*.cpp")
 
 OBJ=$(patsubst $(SRC_DIR)%.cpp,$(OBJ_DIR)%.o,$(SRC))
+
+MAIN=main.o
 
 EXECUTABLE=genetic-algo
 
 release: all
 
 all: CFLAGS+=-O2
-all: $(EXECUTABLE)
+all: $(EXECUTABLE) $(LIBRARY)
 
 debug: CFLAGS+=-O0 -g
 debug: $(EXECUTABLE)
@@ -29,9 +31,9 @@ debug: $(EXECUTABLE)
 %.cpp%.o:
 	$(CC) -c -o $@ $< $(CPPFLAGS)
 
-# Make the executable named EXECUTABLE using CC
-$(EXECUTABLE): $(OBJ)
-	$(CC) -o $@ $(CPPFLAGS) $(OBJ) $(INCLUDES)
+# Make the executable named EXECUTABLE using CC with the provided MAIN
+$(EXECUTABLE): $(MAIN) $(OBJ)
+	$(CC) -o $@ $(CPPFLAGS) $(OBJ) $(MAIN) $(INCLUDES)
 
 # Generate the static library
 # TODO: Get this working.
@@ -41,4 +43,5 @@ $(LIBRARY): $(OBJ)
 clean:
 	rm -rf $(OBJ)
 	rm -f $(EXECUTABLE)
+	rm -f $(MAIN)
 	rm -f $(LIBRARY)
