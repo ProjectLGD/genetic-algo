@@ -70,6 +70,8 @@ public:
             }
         }
 
+        // TODO: Normalize fitness from 0 to 1.
+
         // cout << "Fitness max is " << fitness_max << endl;
 
         for (size_t i = 0; i < popu.size(); i++) {

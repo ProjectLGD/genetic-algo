@@ -17,7 +17,7 @@ vector<DNA<Vec3>> generate_data(uint64_t vector_size, uint64_t dna_size) {
     for (size_t i = 0; i < vector_size; i++) {
         DNA<Vec3> dna;
         for (size_t j = 0; j < dna_size; j++) {
-            int x = rand()%(1024*10);
+            int x = rand()%(1024*10); // TODO: also generate negative numbers.
             int y = 0;
             // int y = rand()%(1024*10);
             int z = 0;

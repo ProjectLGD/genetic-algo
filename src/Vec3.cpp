@@ -9,7 +9,6 @@ Vec3::Vec3(int x, int y, int z) {
     this->z = z;
 }
 
-
 Vec3::~Vec3() {
     // cout << "Deconstructing Vec3" << endl;
 }
