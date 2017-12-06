@@ -39,6 +39,7 @@ $(EXECUTABLE): $(MAIN) $(OBJ)
 # TODO: Get this working.
 $(LIBRARY): $(OBJ)
 	$(AR) rcs $@ $(OBJ)
+	ranlib $@
 
 clean:
 	rm -rf $(OBJ)
