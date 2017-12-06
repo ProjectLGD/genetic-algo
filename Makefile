@@ -36,7 +36,6 @@ $(EXECUTABLE): $(MAIN) $(OBJ)
 	$(CC) -o $@ $(CPPFLAGS) $(OBJ) $(MAIN) $(INCLUDES)
 
 # Generate the static library
-# TODO: Get this working.
 $(LIBRARY): $(OBJ)
 	$(AR) rcs $@ $(OBJ)
 	ranlib $@

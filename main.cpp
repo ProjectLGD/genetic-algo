@@ -17,7 +17,7 @@ vector<DNA<Vec3>> generate_data(uint64_t vector_size, uint64_t dna_size) {
     for (size_t i = 0; i < vector_size; i++) {
         DNA<Vec3> dna;
         for (size_t j = 0; j < dna_size; j++) {
-            int x = rand()%(1024*10); // TODO: also generate negative numbers.
+            int x = rand() % (1024*2) - 1024; // also generate negative numbers.
             int y = 0;
             // int y = rand()%(1024*10);
             int z = 0;
@@ -52,9 +52,9 @@ int main(int argc, char** argv) {
     cout << "How often should we run?" << endl;
     // cin >> to_run;
 
-    Population<Vec3> pop(Vec3(500,0,0), 0.001f, size, generate_data);
+    Population<Vec3> pop(Vec3(500,0,0), 0.01f, size, 10, generate_data);
     cout << "Iterating "<< to_run <<" times to evolve population" << endl;
-    //char temp;
+    // char temp;
 
     for (size_t count = 1; count <= to_run; count++) {
         cout << "\r";
@@ -63,9 +63,10 @@ int main(int argc, char** argv) {
         pop.natural_selection();
         pop.generate();
         // print all DNA
-        // for (size_t i = 0; i < pop.popu.size(); i++) {
-        //     DNA<int> *dna = &pop.popu.at(i);
-        //     dna->print();
+        // vector<DNA<Vec3>> dna = pop.get_dna();
+        // for (size_t i = 0; i < dna.size(); i++) {
+        //     DNA<Vec3> *dna_i = &dna.at(i);
+        //     dna_i->print();
         // }
         // pop.compute_most_fit().print();
         // cin >> temp;
