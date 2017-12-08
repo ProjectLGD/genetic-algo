@@ -26,9 +26,10 @@ public:
         return fitness;
     }
 
-    virtual void run(T target) {
+    virtual void run(T target, unsigned int count) {
         cerr << "Running citizen, are you sure this is supposed to happen?" << endl;
         (void) target;
+        (void) count;
     }
 
 };

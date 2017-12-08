@@ -12,7 +12,8 @@ class Population {
 private:
     T target; // our target, T. The population wants to be as close as possible to target.
     float mutation_rate; // how often mutations occur.
-    uint64_t population_size; // The size of the
+    uint64_t population_size; // The size of the population.
+    uint64_t dna_size;
     vector<R> popu; // current population filled with DNA
     vector<R> mating_pool; // the pool used when making new generation
     bool finished = false; // not in use yet
@@ -26,6 +27,7 @@ public:
         this->target = target;
         this->mutation_rate = mutation_rate;
         this->population_size = population_size;
+        this->dna_size = dna_size;
         this->gen_func = func;
 
         // fill population with DNA.
@@ -50,16 +52,18 @@ public:
     }
 
     void fitness_calculate() {
-        for (size_t i = 0; i < popu.size(); i++) {
-            // These have to be pointers otherwise we're not accesing the actual DNA inside the vec.
-            R *citizen = &popu.at(i);
-            citizen->run(target);
-            // cout << "Dna fitness is " << dna->fitness_get();
-            // dna->fitness_calculate(target);
-            citizen->fitness_calculate(target);
-            // cout << "Fitness is " << endl;
-            // cout << citizen->fitness << endl;
-            // cout << " and now it is " << dna->fitness_get() << endl;
+        for (size_t dna_counter = 0; dna_counter < dna_size; dna_counter++) {
+            for (size_t i = 0; i < popu.size(); i++) {
+                // These have to be pointers otherwise we're not accesing the actual DNA inside the vec.
+                R *citizen = &popu.at(i);
+                citizen->run(target, dna_counter);
+                // cout << "Dna fitness is " << dna->fitness_get();
+                // dna->fitness_calculate(target);
+                citizen->fitness_calculate(target);
+                // cout << "Fitness is " << endl;
+                // cout << citizen->fitness << endl;
+                // cout << " and now it is " << dna->fitness_get() << endl;
+            }
         }
     }
 
