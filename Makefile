@@ -12,7 +12,7 @@ INCLUDES=-I ./include
 
 LIBRARY=libgenetic-algo.a
 
-SRC=$(shell find ./src -name "*.cpp")
+SRC=$(shell find ./ -name "*.cpp" -not -name "main.cpp")
 
 OBJ=$(patsubst $(SRC_DIR)%.cpp,$(OBJ_DIR)%.o,$(SRC))
 

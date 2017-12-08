@@ -9,7 +9,7 @@
 #include "include/DNA.hpp"
 #include "include/Population.hpp"
 #include "include/Vec3.h"
-#include "include/Rocket.h"
+#include "Rocket.h"
 
 using namespace std;
 
@@ -61,8 +61,9 @@ int main(int argc, char** argv) {
     // cin >> to_run;
 
     Vec3 tgt(100, 200, 0);
+    Vec3 start(50, 50, 0);
 
-    Population<Vec3, Rocket> pop(tgt, 0.01f, size, dna_size, generate_data);
+    Population<Vec3, Rocket> pop(tgt, start, 0.01f, size, dna_size, generate_data);
     cout << "Iterating "<< to_run <<" times to evolve population" << endl;
     char temp;
 

@@ -1,8 +1,8 @@
 #pragma once
 
-#include <iostream>
-
 #include "DNA.hpp"
+
+#include <iostream>
 
 using namespace std;
 
@@ -11,10 +11,13 @@ class Citizen {
 public:
     DNA<T> dna;
 
+    T start;
+
     float fitness = 0;
 
-    Citizen(DNA<T> dna) {
+    Citizen(DNA<T> dna, T start) {
         this->dna = dna;
+        this->start = start;
     }
 
     virtual float fitness_calculate(T target) {

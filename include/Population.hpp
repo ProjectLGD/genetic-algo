@@ -11,6 +11,7 @@ class Population {
     typedef vector<R>(*dna_gen_func)(uint64_t vector_size, uint64_t dna_size);
 private:
     T target; // our target, T. The population wants to be as close as possible to target.
+    T start; // startpos.
     float mutation_rate; // how often mutations occur.
     uint64_t population_size; // The size of the population.
     uint64_t dna_size;
@@ -22,7 +23,7 @@ private:
     dna_gen_func gen_func = nullptr; // thefunction to use to generate random data, as inside this class, T is still unknown.
 
 public:
-    Population(T target, float mutation_rate, uint64_t population_size, uint64_t dna_size, dna_gen_func func) {
+    Population(T target, T start, float mutation_rate, uint64_t population_size, uint64_t dna_size, dna_gen_func func) {
 
         this->target = target;
         this->mutation_rate = mutation_rate;
@@ -36,6 +37,7 @@ public:
         vector<R> random_dna = dna_generate(population_size, dna_size);
         for (size_t i = 0; i < random_dna.size(); i++) {
             R dna = random_dna.at(i);
+            dna.start = start;
             popu.push_back(dna); // this copies the dna to popu
         }
 
@@ -132,7 +134,7 @@ public:
 
             // add child to population as new citizen.
             // TODO: Check if we shouldn't pas pos
-            popu.at(i) = R(child);
+            popu.at(i) = R(child, start);
         }
         // fitness_calculate(); // don't forget to calculate fitness so that all our new children are fit =D
         // If they're the same, that's not good.
@@ -155,7 +157,7 @@ public:
         }
         cout << "The most fit DNA is index " << index << " with a fitness of " << fitness_max << endl;
         cout << "Pos is " << popu.at(index) << endl;
-        cout << "Distance is " << popu.at(index).pos.get_distance(target) << endl;
+        cout << "Distance is " << popu.at(index).start.get_distance(target) << endl;
         return popu.at(index).dna;
     }
 
