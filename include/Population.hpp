@@ -26,6 +26,7 @@ public:
     Population(T target, T start, float mutation_rate, uint64_t population_size, uint64_t dna_size, dna_gen_func func) {
 
         this->target = target;
+		this->start = start;
         this->mutation_rate = mutation_rate;
         this->population_size = population_size;
         this->dna_size = dna_size;
@@ -45,12 +46,12 @@ public:
     }
 
     Population(const Population<T, R> *p) {
-        this->target = p->target;
-        this->mutation_rate = p->mutation_rate;
-        this->population_size = p->population_size;
-        this->gen_func = p->gen_func;
-
-        this->popu = p->popu;
+		this->target = target;
+		this->start = start;
+		this->mutation_rate = mutation_rate;
+		this->population_size = population_size;
+		this->dna_size = dna_size;
+		this->gen_func = func;
     }
 
     void fitness_calculate() {
