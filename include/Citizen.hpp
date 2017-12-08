@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "DNA.hpp"
+
 using namespace std;
 
 template <class T>

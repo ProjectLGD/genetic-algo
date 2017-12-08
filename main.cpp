@@ -9,21 +9,27 @@
 #include "include/DNA.hpp"
 #include "include/Population.hpp"
 #include "include/Vec3.h"
+#include "include/Rocket.h"
 
 using namespace std;
 
-vector<DNA<Vec3>> generate_data(uint64_t vector_size, uint64_t dna_size) {
-    vector<DNA<Vec3>> vec;
+unsigned int max_x = 10;
+unsigned int max_y = 10;
+
+vector<Rocket> generate_data(uint64_t vector_size, uint64_t dna_size) {
+    vector<Rocket> vec;
     for (size_t i = 0; i < vector_size; i++) {
         DNA<Vec3> dna;
         for (size_t j = 0; j < dna_size; j++) {
-            int x = rand() % (1024*2) - 1024; // also generate negative numbers.
-            int y = 0;
-            // int y = rand()%(1024*10);
+            int x = rand() % (max_x*2) - max_x; // also generate negative numbers.
+            int y = rand() % (max_x*2) - max_x;
+            // int y = 0;
             int z = 0;
             dna.gene_add(Vec3(x, y, z));
         }
-        vec.push_back(dna);
+        // add this to a citizen.
+        Rocket cit(dna);
+        vec.push_back(cit);
     }
 
     return vec;
@@ -35,7 +41,9 @@ int main(int argc, char** argv) {
     cout << endl;
     srand((unsigned)time(nullptr));
 
-    uint64_t size = 100;
+    uint64_t size = 25;
+    uint64_t dna_size = 500;
+
     unsigned int to_run = 10000;
 
     cout << boolalpha; // remember this one
@@ -52,30 +60,23 @@ int main(int argc, char** argv) {
     cout << "How often should we run?" << endl;
     // cin >> to_run;
 
-    Population<Vec3> pop(Vec3(500,0,0), 0.01f, size, 10, generate_data);
+    Vec3 tgt(100, 200, 0);
+
+    Population<Vec3, Rocket> pop(tgt, 0.01f, size, dna_size, generate_data);
     cout << "Iterating "<< to_run <<" times to evolve population" << endl;
-    // char temp;
+    char temp;
 
     for (size_t count = 1; count <= to_run; count++) {
         cout << "\r";
         cout << "Population " << count << flush;
         // cout << "Population " << count << endl;
+        pop.fitness_calculate();
         pop.natural_selection();
+        pop.compute_most_fit();
         pop.generate();
-        // print all DNA
-        // vector<DNA<Vec3>> dna = pop.get_dna();
-        // for (size_t i = 0; i < dna.size(); i++) {
-        //     DNA<Vec3> *dna_i = &dna.at(i);
-        //     dna_i->print();
-        // }
-        // pop.compute_most_fit().print();
-        // cin >> temp;
+        cin >> temp;
     }
     cout << endl;
-
-    pop.compute_most_fit().print();
-
-    pop.print();
 
     return EXIT_OK;
 }
