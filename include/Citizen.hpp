@@ -1,8 +1,8 @@
 #pragma once
 
-#include "DNA.hpp"
-
 #include <iostream>
+
+#include "DNA.hpp"
 
 using namespace std;
 
@@ -12,6 +12,8 @@ public:
     DNA<T> dna;
 
     T start;
+
+    bool done = false;
 
     float fitness = 0;
 

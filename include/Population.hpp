@@ -17,7 +17,7 @@ private:
     uint64_t dna_size;
     vector<R> popu; // current population filled with DNA
     vector<R> mating_pool; // the pool used when making new generation
-    bool finished = false; // not in use yet
+    bool finished = false;
     int perfect_score = 1; // not in use yet.
     uint64_t generation = 0; // current generation
     dna_gen_func gen_func = nullptr; // thefunction to use to generate random data, as inside this class, T is still unknown.
@@ -26,7 +26,7 @@ public:
     Population(T target, T start, float mutation_rate, uint64_t population_size, uint64_t dna_size, dna_gen_func func) {
 
         this->target = target;
-		this->start = start;
+        this->start = start;
         this->mutation_rate = mutation_rate;
         this->population_size = population_size;
         this->dna_size = dna_size;
@@ -46,12 +46,12 @@ public:
     }
 
     Population(const Population<T, R> *p) {
-		this->target = p->target;
-		this->start = p->start;
-		this->mutation_rate = p->mutation_rate;
-		this->population_size = p->population_size;
-		this->dna_size = p->dna_size;
-		this->gen_func = p->func;
+        this->target = p->target;
+        this->mutation_rate = p->mutation_rate;
+        this->population_size = p->population_size;
+        this->gen_func = p->gen_func;
+
+        this->popu = p->popu;
     }
 
     void fitness_calculate() {
@@ -156,9 +156,14 @@ public:
                 index = i;
             }
         }
+        R *cit = &popu.at(index);
         cout << "The most fit DNA is index " << index << " with a fitness of " << fitness_max << endl;
-        cout << "Pos is " << popu.at(index) << endl;
-        cout << "Distance is " << popu.at(index).start.get_distance(target) << endl;
+        cout << "Pos is " << *cit << endl;
+        cout << "Distance is " << (*cit).start.get_distance(target) << endl;
+        if ((*cit).done) {
+            // this population is done!
+            finished = true;
+        }
         return popu.at(index).dna;
     }
 
@@ -185,6 +190,10 @@ public:
         cout << "Generation:\t\t" << generation << endl;
         cout << "End of population" << endl;
         cout << endl;
+    }
+
+    bool is_finished() {
+        return finished;
     }
 
     bool operator==(const Population<T, R> &other) const {
