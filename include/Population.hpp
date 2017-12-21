@@ -33,7 +33,6 @@ public:
         this->gen_func = func;
 
         // fill population with DNA.
-        // TODO: remove hardcoded value;
         // Generate random DNA, so we're generating 100 DNA<T>'s of size 100;
         vector<R> random_dna = dna_generate(population_size, dna_size);
         for (size_t i = 0; i < random_dna.size(); i++) {
@@ -134,7 +133,6 @@ public:
             child.mutate(mutation_rate, random_values);
 
             // add child to population as new citizen.
-            // TODO: Check if we shouldn't pas pos
             popu.at(i) = R(child, start);
         }
         // fitness_calculate(); // don't forget to calculate fitness so that all our new children are fit =D
