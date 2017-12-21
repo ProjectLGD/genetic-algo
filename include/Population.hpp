@@ -116,6 +116,16 @@ public:
         //     mating_pool.at(i).print();
         // }
 
+        // Clip the mating pool to population_size.
+        // fittest comes top
+        sort(mating_pool.begin(), mating_pool.end());
+        vector<R> temp;
+        size_t count = mating_pool.size() > 100 ? 100 : mating_pool.size();
+        for (size_t i = 0; i < count; i++) {
+            temp.push_back(mating_pool[i]);
+        }
+        mating_pool = temp;
+
         for (size_t i = 0; i < popu.size(); i++) {
             // Get parents
             DNA<T> partner1 = mating_pool.at(rand() % (mating_pool.size() - 1)).dna;

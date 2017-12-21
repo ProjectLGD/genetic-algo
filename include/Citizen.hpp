@@ -39,4 +39,9 @@ public:
         (void) count;
     }
 
+    bool operator<(const Citizen<T>& cit2) const
+    {
+        return (this->fitness > cit2.fitness);
+    }
+
 };
