@@ -151,7 +151,7 @@ public:
         generation++;
     }
 
-    DNA<T> compute_most_fit() {
+    R compute_most_fit() {
         // fitness_calculate();
         float fitness_max = 0.0f;
         size_t index = 0;
@@ -165,14 +165,14 @@ public:
             }
         }
         R *cit = &popu.at(index);
-        cout << "The most fit DNA is index " << index << " with a fitness of " << fitness_max << endl;
-        cout << "Pos is " << *cit << endl;
-        cout << "Distance is " << (*cit).start.get_distance(target) << endl;
+        // cout << "The most fit DNA is index " << index << " with a fitness of " << fitness_max << endl;
+        // cout << "Pos is " << *cit << endl;
+        // cout << "Distance is " << (*cit).start.get_distance(target) << endl;
         if ((*cit).done) {
             // this population is done!
             finished = true;
         }
-        return popu.at(index).dna;
+        return (*cit);
     }
 
     vector<R> dna_generate(uint64_t vector_amount, uint64_t dna_amount) {
