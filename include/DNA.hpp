@@ -26,7 +26,7 @@ public:
     }
 
     DNA(const DNA<T> *genes) {
-        cout << "Copy constructor called" << endl;
+        // cout << "Copy constructor called" << endl;
         for (auto m : genes) {
             gene_add(m);
         }
@@ -111,7 +111,6 @@ public:
     void fitness_calculate(T target) {
         // NOTE: Make sure that fitness_calculate always returns a float > 0.
 
-        // TODO: Don't loop through every single gene, but check only 1 gene for a given frame.
         float distance_max;
         float distance_min;
 
@@ -134,7 +133,7 @@ public:
             distance_max = genes.at(0).get_distance(target);
             distance_min = genes.at(0).get_distance(target);
         } else {
-            cerr << "Genes.size() is 0, should not happen boi." << endl;
+            cerr << "Genes.size() is 0, should not happen." << endl;
             exit(1);
         }
 
@@ -151,11 +150,7 @@ public:
         // cout << genes.at(0) << endl;
         // cout << "Dis min " << distance_min << endl;
         // cout << "Dis amx " << distance_max << endl;
-        // TODO: check if fitness works well.
         fitness = 0.7f * (1/(distance_min + 1)) + 0.3f * (1/(distance_between_min_max + 1));
-        // cerr << "Kill me" << endl;
-        // cout << fitness << endl;
-        // exit(1);
     }
 
     void fitness_normalize(float fitness_max) {
